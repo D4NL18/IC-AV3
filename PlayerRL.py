@@ -35,12 +35,15 @@ class RLAgent:
     #
     # Pode ser melhorado!
     #
-    if np.random.uniform(0, 1) < self.epsilon:
-      # Explore: Choose a random action
-      action = np.random.choice(self.action_list)
+    if not state:
+      if np.random.uniform(0, 1) < self.epsilon:
+        # Explore: Choose a random action
+        action = np.random.choice(self.action_list)
+      else:
+        # Exploit: Choose the action with the maximum Q-value
+        action = self.action_list[np.argmax(self.Q[state])]
     else:
-      # Exploit: Choose the action with the maximum Q-value
-      action = self.action_list[np.argmax(self.Q[state])]
+      return "hit"
     return action
     
     
