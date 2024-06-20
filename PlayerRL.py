@@ -82,6 +82,6 @@ class RLAgent:
     
   # Nome de seu agente deve ser colocado aqui  
   def get_name(self):
-    return "SimpleRL"
+    return "TigerBaldo"
 
 
