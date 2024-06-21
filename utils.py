@@ -21,3 +21,17 @@ def calculate_hand_value(hand):
 
     return value
 
+def calculate_card_value(card):
+    value = 0
+    ace_count = 0
+    if card.value == 'ace':
+        ace_count += 1
+    else:
+        value += card_values[card.value]
+    for _ in range(ace_count):
+            if value + 11 <= 21:
+                value += 11
+            else:
+                value += 1
+
+    return value

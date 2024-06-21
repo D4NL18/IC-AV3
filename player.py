@@ -1,5 +1,5 @@
 import random 
-from utils import calculate_hand_value
+from utils import calculate_hand_value, calculate_card_value
 
  ######################################
  #
@@ -12,11 +12,36 @@ from utils import calculate_hand_value
 class Player:
   # Essa função toma a decisão após observar
   # o estado observável do campo
+  def __init__(self):
+    self.player_wins = 0
+    self.total_matches = 0  
+  
   def decision(self, your_hand, dealer_first_card):
     player_hand = [d for d in your_hand]
     print("======== Start of turn =======")
-    print(f"Player hand: {player_hand} vs dealer {dealer_first_card}, ...", ) 
-    choice = random.choice(["hit", "stop"])
+    print(f"Player hand: {player_hand} vs dealer {dealer_first_card}, ...", )
+    if calculate_hand_value(your_hand) <= 11:
+      choice = "hit"
+    elif calculate_hand_value(your_hand) == 12 and (calculate_card_value(dealer_first_card) == 2 or calculate_card_value(dealer_first_card) == 3 or(calculate_card_value(dealer_first_card) >= 7)):
+      choice = "hit"
+    elif calculate_hand_value(your_hand) == 12 and (calculate_card_value(dealer_first_card) == 4 or calculate_card_value(dealer_first_card) == 5 or calculate_card_value(dealer_first_card) == 6):
+      choice = "stop"
+    elif (calculate_hand_value(your_hand) == 13 or calculate_hand_value(your_hand) == 14) and calculate_card_value(dealer_first_card) >=7:
+      choice = "hit"
+    elif (calculate_hand_value(your_hand) == 13 or calculate_hand_value(your_hand) == 14) and calculate_card_value(dealer_first_card) <7:
+      choice = "stop"
+    elif calculate_hand_value(your_hand) == (15) and calculate_card_value(dealer_first_card) >=7 and calculate_card_value(dealer_first_card) != 10:
+      choice = "hit"
+    elif calculate_hand_value(your_hand) == (15) and (calculate_card_value(dealer_first_card) <7 or calculate_card_value(dealer_first_card) == 10):
+      choice = "stop"
+    elif calculate_hand_value(your_hand) == (16) and (calculate_card_value(dealer_first_card) != 9 or calculate_card_value(dealer_first_card) != 10 or calculate_card_value(dealer_first_card) != 11):
+      choice = "hit"
+    elif calculate_hand_value(your_hand) == (16) and (calculate_card_value(dealer_first_card) == 9 or calculate_card_value(dealer_first_card) == 10 or calculate_card_value(dealer_first_card) == 11):
+      choice = "stop"
+    elif calculate_hand_value(your_hand) == (17):
+      choice = "stop"
+    else:
+      choice = "stand"
     print(f"You made the decision '{choice}'")
     return choice
 

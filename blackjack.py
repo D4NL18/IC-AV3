@@ -4,6 +4,7 @@ import itertools
 from utils import calculate_hand_value
 from dealer import DealerPlayer
 from PlayerRL import RLAgent as Player
+# from player import Player
 
 # Initialize Pygame
 pygame.init()
@@ -157,12 +158,12 @@ def play_blackjack(player):
         render_portrait(player_portrait, (50, 100))
         render_portrait(dealer_portrait, (50, 300))                
         pygame.display.flip()  # Update the display
-        pygame.time.wait(10)  
+        pygame.time.wait(30)  
         
     # Durante treinamento você deve 
     # remover esse delay para acelerar o treinamento 
     print(f'winrate: {player.player_wins*100/player.total_matches}%')   
-    pygame.time.wait(10000)  
+    pygame.time.wait(10)  
 
     return hand_result
 
