@@ -21,7 +21,10 @@ class RLAgent:
     self.action_list = ["hit", "stop"]
     
     self.current_input = None
-    self.current_output = None    
+    self.current_output = None  
+
+    self.player_wins = 0
+    self.total_matches = 0  
     
   # def extract_rl_state(self, your_hand):
   #   # versão bem básica onde apenas verificamos se o total

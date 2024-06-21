@@ -72,11 +72,14 @@ class Card:
     return f'[{self.value}-{self.suit}]'
     
 
+
 # Main game loop
 def play_blackjack(player):
     running = True
     player_turn = False  # True if it's player's turn, False for dealer's turn
     dealer_turn = True
+
+
     
 
     # Create a deck of cards and deal initial hands
@@ -128,14 +131,21 @@ def play_blackjack(player):
                 player_value = calculate_hand_value(player_hand)
                 if (player_value > 21):
                   hand_result = -1
+                  player.total_matches+=1
                 elif (dealer_value > 21):
                   hand_result = +1
+                  player.player_wins+=1
+                  player.total_matches+=1
                 elif (player_value > dealer_value):
                   hand_result = +1
+                  player.player_wins+=1
+                  player.total_matches+=1
                 elif (player_value == dealer_value):
                   hand_result = 0
+                  player.total_matches+=1
                 else:
                   hand_result = -1
+                  player.total_matches+=1
                 #print(f"Round result {hand_result}")                     
                 running = False
             # Decision
@@ -150,7 +160,8 @@ def play_blackjack(player):
         pygame.time.wait(10)  
         
     # Durante treinamento você deve 
-    # remover esse delay para acelerar o treinamento    
+    # remover esse delay para acelerar o treinamento 
+    print(f'winrate: {player.player_wins*100/player.total_matches}%')   
     pygame.time.wait(10000)  
 
     return hand_result
