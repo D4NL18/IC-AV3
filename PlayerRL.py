@@ -83,7 +83,7 @@ class RLAgent:
     elif action == "hit" and (calculate_hand_value(player_hand) < 17 and calculate_hand_value([dealer_first_card]) in [10, 9, 8, 7]):
         reward -= 1  
         
-    self.Q[state][action_index] += self.alp * (reward + self.gam * max_next_q - self.Q[state][action_index])
+    self.Q[state][action_index] += alp * (reward + gam * max_next_q - self.Q[state][action_index])
 
     
   # Essa função toma a decisão após observar
@@ -92,7 +92,7 @@ class RLAgent:
     player_hand = [d for d in your_hand]
     print("======== Start of turn =======")
     print(f"Player hand: {player_hand} vs dealer {dealer_first_card}, ...", ) 
-    state = self.extract_rl_state(your_hand=your_hand)
+    state = self.extract_rl_state(your_hand=your_hand, dealer_first_card=dealer_first_card)
     choice = self.choose_action(state)
     print(f"You made the decision '{choice}'")
     return choice
@@ -111,8 +111,8 @@ class RLAgent:
   #   print("======== End of turn =======")    
 
   def result(self, your_hand, dealer_first_card, decision, reward, is_not_done):
-    state = self.extract_rl_state(your_hand)
-    next_state = self.extract_rl_state(your_hand + [dealer_first_card])
+    state = self.extract_rl_state(your_hand, dealer_first_card)
+    next_state = self.extract_rl_state(your_hand + [dealer_first_card], dealer_first_card)
 
     game_status = "still going" if is_not_done else "is done" 
     print(f"{your_hand=}")
