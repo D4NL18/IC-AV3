@@ -5,7 +5,8 @@ from utils import calculate_hand_value
 
 class RLAgent:
   def __init__(self):
-  
+    self.player_wins = 0
+    self.total_matches = 0 
     # Learning rate - 
     self.alpha = 0.1
     # Discount factor - Balanço entre priorizar recompensas futuras e atuais
@@ -21,10 +22,7 @@ class RLAgent:
     self.action_list = ["hit", "stop"]
     
     self.current_input = None
-    self.current_output = None  
-
-    self.player_wins = 0
-    self.total_matches = 0  
+    self.current_output = None    
     
   # def extract_rl_state(self, your_hand):
   #   # versão bem básica onde apenas verificamos se o total
@@ -81,9 +79,25 @@ class RLAgent:
     action_index = self.action_list.index(action)
     max_next_q = np.max(self.Q[next_state]) if next_state in self.Q else 0.0
     
-    if action == "stop" and (calculate_hand_value(player_hand) > 17 and not any(card.value == 'ace' for card in player_hand)):
+    playerValue = calculate_hand_value(player_hand)
+    dealerValue = calculate_hand_value([dealer_first_card])
+    
+    if ((action == "stop" and (playerValue > 17 and not any(card.value == 'ace' for card in player_hand))) 
+        or 
+        (action == "hit" and (playerValue < 17 and dealerValue >= 7))
+        or
+        (action == "stop" and (playerValue < 17 and playerValue > 12 and dealerValue < 7))
+        or
+        (action == "hit" and (playerValue < 11))
+        or
+        (action == "hit" and (any(card.value == 'ace' for card in player_hand) and playerValue >= 17 and playerValue < dealerValue + 10))
+        or
+        (action == "stop" and (any(card.value == 'ace' for card in player_hand) and playerValue >= 17 and playerValue > dealerValue + 10))
+        or
+        (action == "hit" and (any(card.value == 'ace' for card in player_hand) and playerValue < 17))
+        ):
         reward += 1  
-    elif action == "hit" and (calculate_hand_value(player_hand) < 17 and calculate_hand_value([dealer_first_card]) in [10, 9, 8, 7]):
+    else:
         reward -= 1  
         
     self.Q[state][action_index] += alp * (reward + gam * max_next_q - self.Q[state][action_index])
