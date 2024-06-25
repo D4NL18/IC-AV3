@@ -158,7 +158,7 @@ def play_blackjack(player):
         render_portrait(player_portrait, (50, 100))
         render_portrait(dealer_portrait, (50, 300))                
         pygame.display.flip()  # Update the display
-        pygame.time.wait(30)  
+        pygame.time.wait(10)  
         
     # Durante treinamento você deve 
     # remover esse delay para acelerar o treinamento 
