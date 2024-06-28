@@ -158,7 +158,8 @@ def play_blackjack(player):
         render_portrait(player_portrait, (50, 100))
         render_portrait(dealer_portrait, (50, 300))                
         pygame.display.flip()  # Update the display
-        pygame.time.wait(10)  
+        pygame.time.wait(10) 
+        
         
     # Durante treinamento você deve 
     # remover esse delay para acelerar o treinamento 
@@ -180,22 +181,8 @@ def get_odds(results):
 
 # Insire seu jogador abaixo:
 player = Player()
-
-# Jogamos 100 rodadas de treino 
-# depois disso jogamos 100 rodadas
-# onde deveríamos jogar de forma
-# mais gulosa para obter o score
-# final. Não existe rodada de 
-# treino, o RL aprende enquanto
-# explora as possibilidades mas
-# para normalizar os resultados
-# faremos desse jeito. Você
-# pode alterar esses valores sem
-# nenhum problema. Os valores de treino
-# e teste em particular podem (e devem)
-# ser bem maiores.
-training_score = play_n_rounds(player, 100)
-real_score = play_n_rounds(player, 100)
+training_score = play_n_rounds(player, 2000)
+real_score = play_n_rounds(player, 1000)
  
 
 import statistics

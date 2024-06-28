@@ -24,14 +24,6 @@ class RLAgent:
     self.current_input = None
     self.current_output = None    
     
-  # def extract_rl_state(self, your_hand):
-  #   # versão bem básica onde apenas verificamos se o total
-  #   # em nossa mão é maior que 11, assim podemos
-  #   # ter uma característica para indicar se tem
-  #   # uma chance de 'estourar' a mão mas isso 
-  #   # não leva em conta várias pontos importantes z
-  #   return (int(calculate_hand_value(your_hand) > 11),);
-
   def extract_rl_state(self, your_hand, dealer_first_card):
     player_value = calculate_hand_value(your_hand)
     dealer_value = calculate_hand_value([dealer_first_card])
@@ -39,21 +31,6 @@ class RLAgent:
     
     state = (player_value, dealer_value, ace_count)
     return state
- 
-  # def choose_action(self, state):
-  #   #
-  #   # Pode ser melhorado!
-  #   #
-  #   if not state:
-  #     if np.random.uniform(0, 1) < self.epsilon:
-  #       # Explore: Choose a random action
-  #       action = np.random.choice(self.action_list)
-  #     else:
-  #       # Exploit: Choose the action with the maximum Q-value
-  #       action = self.action_list[np.argmax(self.Q[state])]
-  #   else:
-  #     return "hit"
-  #   return action
   
 
   def choose_action(self, state):
@@ -66,12 +43,6 @@ class RLAgent:
             action = "hit"  
     return action
     
-    
-  # def update_qtable(self, state, action, reward, next_state):
-  #   alp = self.alpha
-  #   gam = self.gamma
-  #   action_index = self.action_list.index(action)
-  #   self.Q[state][action_index] = (1 - alp) * self.Q[state][action_index] + alp * (reward + gam * np.max(self.Q[next_state]))  
 
   def update_qtable(self, state, action, reward, next_state, player_hand, dealer_first_card):
     alp = self.alpha
@@ -105,6 +76,7 @@ class RLAgent:
     
   # Essa função toma a decisão após observar
   # o estado observável do campo
+
   def decision(self, your_hand, dealer_first_card):
     player_hand = [d for d in your_hand]
     print("======== Start of turn =======")
@@ -114,18 +86,6 @@ class RLAgent:
     print(f"You made the decision '{choice}'")
     return choice
 
-  # Essa função deveria atualiza QTable
-  # def result(self, your_hand, dealer_first_card, decision, reward, is_not_done):
-  #   player_hand = [d for d in your_hand]
-  #   game_status = "still going" if is_not_done else "is done" 
-  #   print(f"{your_hand=}")
-  #   state = self.extract_rl_state(your_hand=your_hand[:-1])
-  #   next_state = self.extract_rl_state(your_hand=your_hand)
-  #   self.update_qtable(state, decision, reward, next_state)
-  #   self.print_q_table(self.Q)
-  #   print(f"Your hand ({calculate_hand_value(your_hand)}) after decision '{decision}' with {reward=} and game {game_status}")
-
-  #   print("======== End of turn =======")    
 
   def result(self, your_hand, dealer_first_card, decision, reward, is_not_done):
     state = self.extract_rl_state(your_hand, dealer_first_card)
